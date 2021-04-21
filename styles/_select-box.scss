@@ -1,0 +1,98 @@
+.select-box {
+  display: flex;
+  flex-direction: column-reverse;
+  position: relative;
+  width: 32px;
+}
+.options-container {
+  background-color: rgb(86, 86, 207);
+  width: 75px;
+  position: relative;
+  margin-top: 5px;
+
+  max-height: 0px;
+  border-radius: 5px;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.4s ease;
+
+  color: whitesmoke;
+}
+
+.options-container.active {
+  max-height: 200px;
+  opacity: 1;
+}
+.option {
+  padding: 0.35rem 0.5rem;
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: rgb(125, 125, 218);
+  }
+}
+
+.active-option {
+  background-color: rgb(158, 158, 214);
+
+  &:hover {
+    background-color: rgb(158, 158, 214);
+  }
+}
+
+#filter-box .selected-btn::after {
+  background-image: url("../assets/filter.svg");
+  content: " ";
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+
+  height: 100%;
+
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -40%);
+
+  transition: all 0.2s ease;
+
+  width: 25px;
+  height: 25px;
+
+  pointer-events: none;
+}
+
+#sort-box .selected-btn::after {
+  background-image: url("../assets/sort-result.svg");
+  content: " ";
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+
+  height: 100%;
+
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-40%, -50%);
+
+  transition: all 0.2s ease;
+
+  width: 25px;
+  height: 25px;
+
+  pointer-events: none;
+}
+
+.selected-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 5px;
+  cursor: pointer;
+
+  background-color: rgb(86, 86, 207);
+
+  position: relative;
+}

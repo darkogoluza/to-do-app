@@ -5,6 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./styles/main.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap"
+      rel="stylesheet"
+    />
     <title>To Do App</title>
   </head>
   <body>
@@ -18,6 +23,22 @@
           placeholder="Enter your new item name..."
         />
         <button id="submit-btn">Submit</button>
+        <div class="select-box" id="filter-box">
+          <div class="options-container">
+            <div class="option">All</div>
+            <div class="option">Done</div>
+            <div class="option">Not Done</div>
+          </div>
+          <div class="selected-btn"></div>
+        </div>
+        <div class="select-box" id="sort-box">
+          <div class="options-container">
+            <div class="option">Date</div>
+            <div class="option">Name</div>
+            <div class="option">Custom</div>
+          </div>
+          <div class="selected-btn"></div>
+        </div>
       </div>
 
       <div class="items-holder"></div>

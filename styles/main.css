@@ -1,48 +1,3 @@
-* {
-  margin: 0;
-  padding: 0;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-}
-
-body {
-  background-color: cadetblue;
-}
-
-main {
-  width: 50%;
-  margin: auto;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-#input-field {
-  height: 25px;
-  padding-left: 10px;
-  -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
-}
-
-.item-content {
-  width: 100%;
-  height: auto;
-  background-color: #b7bfc7;
-  border-radius: 5px;
-  -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
-  padding: 10px;
-}
-
 .todo-item {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -61,12 +16,15 @@ main {
   width: 100%;
 }
 
-.item-input {
+.item-content {
   width: 100%;
-  margin: 50px 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  height: auto;
+  background-color: #b7bfc7;
+  border-radius: 5px;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  padding: 10px;
 }
 
 .item-done .item-content {
@@ -75,6 +33,155 @@ main {
 
 .item-done p {
   text-decoration: line-through;
+}
+
+.hide-item {
+  display: none;
+}
+
+.item-input {
+  width: 100%;
+  margin: 50px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+}
+
+#input-field {
+  height: 42px;
+  padding-left: 10px;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+}
+
+#submit-btn {
+  height: 42px;
+}
+
+.select-box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: column-reverse;
+          flex-direction: column-reverse;
+  position: relative;
+  width: 32px;
+}
+
+.options-container {
+  background-color: #5656cf;
+  width: 75px;
+  position: relative;
+  margin-top: 5px;
+  max-height: 0px;
+  border-radius: 5px;
+  overflow: hidden;
+  opacity: 0;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  color: whitesmoke;
+}
+
+.options-container.active {
+  max-height: 200px;
+  opacity: 1;
+}
+
+.option {
+  padding: 0.35rem 0.5rem;
+  cursor: pointer;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+.option:hover {
+  background-color: #7d7dda;
+}
+
+.active-option {
+  background-color: #9e9ed6;
+}
+
+.active-option:hover {
+  background-color: #9e9ed6;
+}
+
+#filter-box .selected-btn::after {
+  background-image: url("../assets/filter.svg");
+  content: " ";
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+  height: 100%;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -40%);
+          transform: translate(-50%, -40%);
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  width: 25px;
+  height: 25px;
+  pointer-events: none;
+}
+
+#sort-box .selected-btn::after {
+  background-image: url("../assets/sort-result.svg");
+  content: " ";
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+  height: 100%;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-40%, -50%);
+          transform: translate(-40%, -50%);
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  width: 25px;
+  height: 25px;
+  pointer-events: none;
+}
+
+.selected-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #5656cf;
+  position: relative;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  background-color: cadetblue;
+  font-family: "Ubuntu", sans-serif;
+}
+
+main {
+  width: 50%;
+  margin: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .rename-item-screen {

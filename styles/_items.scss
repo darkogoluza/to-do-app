@@ -1,0 +1,35 @@
+.todo-item {
+  display: flex;
+  margin-bottom: 25px;
+}
+
+.items-holder {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.item-content {
+  width: 100%;
+  height: auto;
+
+  background-color: rgb(183, 191, 199);
+  border-radius: 5px;
+
+  flex-grow: 1;
+  padding: 10px;
+}
+
+.item-done {
+  .item-content {
+    background-color: rgb(91, 103, 116);
+  }
+
+  p {
+    text-decoration: line-through;
+  }
+}
+
+.hide-item {
+  display: none;
+}
