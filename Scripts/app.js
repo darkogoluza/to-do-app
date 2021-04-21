@@ -69,7 +69,16 @@ const filterBox = new SelectBox("#filter-box", () => {
 });
 
 const sortbox = new SelectBox("#sort-box", () => {
-  console.log(sortbox.activeOptionId);
+  const items = Array.prototype.slice.call(
+    document.querySelectorAll(".todo-item")
+  );
+
+  const sortedItems = getSortedItems(items);
+
+  for (var i = 0, len = sortedItems.length; i < len; i++) {
+    const detatchedItem = itemHolder.removeChild(sortedItems[i]);
+    itemHolder.appendChild(detatchedItem);
+  }
 });
 
 let itemToRename = null;
@@ -78,6 +87,8 @@ submitButton.addEventListener("click", () => {
   inputField.value !== ""
     ? addItem(inputField.value)
     : alert("Pleas add some name for your To Do item");
+
+  inputField.value = "";
 });
 
 cancleRenameButton.addEventListener("click", () => {
@@ -110,7 +121,7 @@ function addItem(content) {
 function createItemHTML(task) {
   return `<div class="item-content">
             <p class="item-task">Task: ${task}</p>
-            <p>Created on: ${new Date()}</p>
+            <p class="item-date">Created on: ${new Date().toLocaleString()}</p>
         </div>
         <button class="mark-item-done">Mark as Done</button>
         <button class="rename-item">Rename Item </button>
@@ -150,4 +161,60 @@ function renameItemAction(item) {
 
 function renameItem(item, newName) {
   item.querySelector(".item-task").textContent = `Task: ${newName}`;
+}
+
+function getTaskName(task) {
+  return task.textContent.slice(6);
+}
+
+function getTaskDate(task) {
+  return Date.parse(task.textContent.slice(12));
+}
+
+function getSortedItems(items) {
+  switch (sortbox.activeOptionId) {
+    case "Name Ascending":
+      return getSortedItemsByName(items);
+
+    case "Name Deescending":
+      return getSortedItemsByName(items).reverse();
+
+    case "Date Ascending":
+      return getSortedItemsByDate(items);
+  }
+}
+
+function getSortedItemsByName(items) {
+  return items.sort((a, b) => {
+    const nameA = getTaskName(a.querySelector(".item-task")).toUpperCase();
+    const nameB = getTaskName(b.querySelector(".item-task")).toUpperCase();
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+
+    // names must be equal
+    return 0;
+  });
+}
+
+function getSortedItemsByDate(items) {
+  return items.sort((a, b) => {
+    const dateA = getTaskDate(a.querySelector(".item-date"));
+    const dateB = getTaskDate(b.querySelector(".item-date"));
+
+    console.log(dateA);
+
+    if (dateA < dateB) {
+      return -1;
+    }
+    if (dateA > dateB) {
+      return 1;
+    }
+
+    // names must be equal
+    return 0;
+  });
 }

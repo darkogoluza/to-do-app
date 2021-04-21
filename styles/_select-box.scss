@@ -6,8 +6,10 @@
 }
 .options-container {
   background-color: rgb(86, 86, 207);
-  width: 75px;
+  width: 125px;
   position: relative;
+  left: 0;
+  transform: translate(-35%, 0);
   margin-top: 5px;
 
   max-height: 0px;
@@ -17,10 +19,11 @@
   transition: all 0.4s ease;
 
   color: whitesmoke;
+  text-align: center;
 }
 
 .options-container.active {
-  max-height: 200px;
+  max-height: 500px;
   opacity: 1;
 }
 .option {

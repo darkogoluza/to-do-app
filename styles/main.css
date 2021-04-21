@@ -76,8 +76,11 @@
 
 .options-container {
   background-color: #5656cf;
-  width: 75px;
+  width: 125px;
   position: relative;
+  left: 0;
+  -webkit-transform: translate(-35%, 0);
+          transform: translate(-35%, 0);
   margin-top: 5px;
   max-height: 0px;
   border-radius: 5px;
@@ -86,10 +89,11 @@
   -webkit-transition: all 0.4s ease;
   transition: all 0.4s ease;
   color: whitesmoke;
+  text-align: center;
 }
 
 .options-container.active {
-  max-height: 200px;
+  max-height: 500px;
   opacity: 1;
 }
 
