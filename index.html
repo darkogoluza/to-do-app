@@ -23,7 +23,7 @@
             ,
             placeholder="Enter your new item name..."
           />
-          <p class="name-warrning">Name cannot be empty</p>
+          <p class="name-warrning" id="input-name">Name cannot be empty</p>
         </div>
         <button id="submit-btn">Submit</button>
         <div class="select-box" id="filter-box">
@@ -46,22 +46,27 @@
         </div>
       </div>
 
-      <input type="text" name="" id="input-search" placeholder="Search..." />
+      <div class="search-wrapper">
+        <input type="text" name="" id="input-search" placeholder="Search..." />
+        <p class="search-resoults"></p>
+      </div>
 
       <div class="items-holder"></div>
     </main>
 
     <div class="rename-item-screen">
-      <input
-        type="text"
-        name=""
-        id="rename-input"
-        placeholder="Enter new name here..."
-      />
-
-      <div class="rename-buttons">
-        <button id="rename-submit">Rename</button>
-        <button id="rename-cancle">Cancle</button>
+      <div class="rename-wrapper">
+        <input
+          type="text"
+          name=""
+          id="rename-input"
+          placeholder="Enter new name here..."
+        />
+        <p class="name-warrning" id="rename-name">Name cannot be empty</p>
+        <div class="rename-buttons">
+          <button id="rename-submit">Rename</button>
+          <button id="rename-cancle">Cancle</button>
+        </div>
       </div>
     </div>
 

@@ -1,0 +1,97 @@
+.rename-item-screen {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .rename-buttons {
+    display: flex;
+    justify-content: center;
+
+    margin-top: 2rem;
+
+    width: 100%;
+
+    button {
+      width: 100px;
+      height: 42px;
+      padding: 0 0.25rem;
+      margin: 0 1rem;
+      border-radius: 5px;
+      outline: none;
+      border: none;
+
+      color: #2c245e;
+      font-size: 0.85em;
+      font-weight: bold;
+
+      transition: all 0.2s ease-in-out;
+
+      &:hover {
+        border-radius: 15px;
+        width: 150px;
+      }
+    }
+  }
+  .rename-wrapper {
+    width: 50%;
+  }
+
+  #rename-submit {
+    background-color: #ffc759;
+
+    &:hover {
+      background-color: #ffb726;
+    }
+  }
+
+  #rename-cancle {
+    background-color: #ff7b9c;
+
+    &:hover {
+      background-color: #fd3c6c;
+    }
+  }
+
+  #rename-input {
+    height: 42px;
+    padding-left: 10px;
+    font-size: 0.95em;
+
+    width: 100%;
+
+    border-radius: 5px;
+    font-family: "Ubuntu", sans-serif;
+    background-color: #babfd1;
+    color: #3c3e46;
+
+    outline: none;
+    border: none;
+
+    &:focus {
+      outline: none;
+      border: none;
+    }
+  }
+
+  background-color: #e8e9edef;
+
+  opacity: 0;
+  pointer-events: none;
+}
+
+.show-rename {
+  opacity: 1;
+  pointer-events: initial;
+}
+
+#rename-name {
+  opacity: 0;
+}

@@ -38,14 +38,13 @@ class SelectBox {
         this.activeOptionId = optionId;
       }
     });
-
-    localStorage.setItem("sort", optionId);
   }
 }
 
 const inputField = document.querySelector("#input-field");
 const renameInputField = document.querySelector("#rename-input");
 const inputSearch = document.querySelector("#input-search");
+const searchResults = document.querySelector(".search-resoults");
 
 const cancleRenameButton = document.querySelector("#rename-cancle");
 const submitButton = document.querySelector("#submit-btn");
@@ -55,7 +54,8 @@ const itemHolder = document.querySelector(".items-holder");
 
 const renameScreen = document.querySelector(".rename-item-screen");
 
-const nameWarrning = document.querySelector(".name-warrning");
+const nameWarrning = document.querySelector("#input-name");
+const renameWarrning = document.querySelector("#rename-name");
 
 const filterBox = new SelectBox("#filter-box", () => {
   filterItems();
@@ -66,6 +66,10 @@ const sortbox = new SelectBox("#sort-box", sortItems);
 
 let itemToRename = null;
 
+document.querySelectorAll("input").forEach((input) => {
+  input.value = "";
+});
+
 submitButton.addEventListener("click", () => {
   addItem(inputField.value);
   inputField.value = "";
@@ -74,9 +78,9 @@ submitButton.addEventListener("click", () => {
 });
 
 checkSubmitButtonValidity();
-inputField.addEventListener("input", () => {
-  checkSubmitButtonValidity();
-});
+inputField.addEventListener("input", checkSubmitButtonValidity);
+
+renameInputField.addEventListener("input", checkRenameButtonValidity);
 
 inputSearch.addEventListener("input", filterItemsBySearch);
 
@@ -118,7 +122,7 @@ function addItem(content, date = null, done = false) {
 function createItemHTML(task, date = null) {
   if (date === null) date = moment().format("MMMM Do YYYY, h:mm:ss a");
   return `<div class="item-content">
-            <p class="item-task">Task: ${task}</p>
+            <p class="item-task">Task: <span class="primary">${task}</span></p>
             <p class="item-date">Created on: ${date}</p>
         </div>
         <button class="mark-item-done">Mark as Done</button>
@@ -128,8 +132,12 @@ function createItemHTML(task, date = null) {
 
 function removeItemAction(item) {
   item.querySelector(".remove-item").addEventListener("click", (e) => {
-    itemHolder.removeChild(e.target.parentElement);
-    saveItems();
+    e.target.parentElement.classList.add("deleted-item");
+
+    setTimeout(() => {
+      itemHolder.removeChild(e.target.parentElement);
+      saveItems();
+    }, 800);
   });
 }
 
@@ -154,8 +162,9 @@ function markItemAction(item) {
 function renameItemAction(item) {
   item.querySelector(".rename-item").addEventListener("click", (e) => {
     renameScreen.classList.add("show-rename");
-    renameInputField.value = "";
+    renameInputField.value = getTaskName(e.target.parentElement);
     itemToRename = e.target.parentElement;
+    checkRenameButtonValidity();
   });
 }
 
@@ -266,6 +275,8 @@ function getSortedItemsByDate(items) {
 }
 
 function sortItems() {
+  localStorage.setItem("sort", sortbox.activeOptionId);
+
   if (sortbox.activeOptionId === "Custom") {
     document.querySelectorAll(".todo-item").forEach((item) => {
       item.classList.add("draggable-item");
@@ -293,13 +304,24 @@ function sortItems() {
 
 function checkSubmitButtonValidity() {
   if (inputField.value === "") {
-    submitButton.style.backgroundColor = "rgb(50, 88, 76)";
+    submitButton.style.opacity = "0.5";
     submitButton.style.pointerEvents = "none";
-    nameWarrning.style.display = "block";
+    nameWarrning.style.opacity = "1";
   } else {
-    submitButton.style.backgroundColor = "#7fffd4";
+    submitButton.style.opacity = "1";
     submitButton.style.pointerEvents = "initial";
-    nameWarrning.style.display = "none";
+    nameWarrning.style.opacity = "0";
+  }
+}
+function checkRenameButtonValidity() {
+  if (renameInputField.value === "") {
+    renameButton.style.opacity = "0.5";
+    renameButton.style.pointerEvents = "none";
+    renameWarrning.style.opacity = "1";
+  } else {
+    renameButton.style.opacity = "1";
+    renameButton.style.pointerEvents = "initial";
+    renameWarrning.style.opacity = "0";
   }
 }
 
@@ -326,13 +348,17 @@ function filterItems() {
 function filterItemsBySearch() {
   if (inputSearch.value === "") {
     filterItems();
+    searchResults.textContent = "";
     return;
   }
 
+  let resoultsCount = 0;
   document.querySelectorAll(".todo-item").forEach((item) => {
     const regex = new RegExp(`^${inputSearch.value}`, "gi");
     if (!getTaskName(item).match(regex)) item.classList.add("hide-item");
+    else resoultsCount += 1;
   });
+  searchResults.textContent = `Resoults: ${resoultsCount}`;
 }
 
 function saveItems() {
@@ -350,6 +376,7 @@ function saveItems() {
 
 function loadItems() {
   const itemsObject = JSON.parse(localStorage.getItem("items"));
+  filterBox.makeOptionActive("All");
 
   sortbox.makeOptionActive(localStorage.getItem("sort"));
   itemsObject.forEach((item) => {

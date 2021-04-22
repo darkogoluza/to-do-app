@@ -3,9 +3,10 @@
   flex-direction: column-reverse;
   position: relative;
   width: 32px;
+  margin-left: 1rem;
 }
 .options-container {
-  background-color: rgb(86, 86, 207);
+  background-color: #607196;
   width: 125px;
   position: relative;
   left: 0;
@@ -18,7 +19,7 @@
   opacity: 0;
   transition: all 0.4s ease;
 
-  color: whitesmoke;
+  color: #e8e9ed;
   text-align: center;
 }
 
@@ -32,16 +33,17 @@
 
   transition: all 0.2s ease;
 
+  font-size: 0.75em;
+
   &:hover {
-    background-color: rgb(125, 125, 218);
+    background-color: #babfd1;
   }
 }
 
 .active-option {
-  background-color: rgb(158, 158, 214);
-
+  background-color: #8289a3;
   &:hover {
-    background-color: rgb(158, 158, 214);
+    background-color: #8289a3;
   }
 }
 
@@ -95,7 +97,13 @@
   border-radius: 5px;
   cursor: pointer;
 
-  background-color: rgb(86, 86, 207);
+  background-color: #607196;
+
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #889ac2 !important;
+  }
 
   position: relative;
 }
