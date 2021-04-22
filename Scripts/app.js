@@ -83,16 +83,19 @@ renameButton.addEventListener("click", () => {
   renameScreen.classList.remove("show-rename");
   renameItem(itemToRename, renameInputField.value);
   itemToRename = null;
+
+  saveItems();
 });
 
-function addItem(content) {
+function addItem(content, date = null, done = false) {
   const item = document.createElement("div");
   item.classList.add("todo-item");
+  if (done) item.classList.add("item-done");
   if (filterBox.activeOptionId === "Not Done") {
     item.classList.add("hide-item");
   }
 
-  item.innerHTML = createItemHTML(content);
+  item.innerHTML = createItemHTML(content, date);
 
   itemHolder.appendChild(item);
 
@@ -101,14 +104,15 @@ function addItem(content) {
   renameItemAction(item);
 
   sortItems();
+
+  saveItems();
 }
 
-function createItemHTML(task) {
+function createItemHTML(task, date = null) {
+  if (date === null) date = moment().format("MMMM Do YYYY, h:mm:ss a");
   return `<div class="item-content">
             <p class="item-task">Task: ${task}</p>
-            <p class="item-date">Created on: ${moment().format(
-              "MMMM Do YYYY, h:mm:ss a"
-            )}</p>
+            <p class="item-date">Created on: ${date}</p>
         </div>
         <button class="mark-item-done">Mark as Done</button>
         <button class="rename-item">Rename Item </button>
@@ -118,6 +122,7 @@ function createItemHTML(task) {
 function removeItemAction(item) {
   item.querySelector(".remove-item").addEventListener("click", (e) => {
     itemHolder.removeChild(e.target.parentElement);
+    saveItems();
   });
 }
 
@@ -135,6 +140,7 @@ function markItemAction(item) {
         e.target.parentElement.classList.add("hide-item");
       }
     }
+    saveItems();
   });
 }
 
@@ -265,3 +271,27 @@ function filterItemsBySearch() {
     if (!getTaskName(item).match(regex)) item.classList.add("hide-item");
   });
 }
+
+function saveItems() {
+  const itemsObject = [];
+
+  document.querySelectorAll(".todo-item").forEach((item) => {
+    itemsObject.push({
+      task: getTaskName(item),
+      date: item.querySelector(".item-date").textContent.slice(12),
+      isDone: item.classList.contains("item-done"),
+    });
+  });
+  localStorage.setItem("items", JSON.stringify(itemsObject));
+}
+
+function loadItems() {
+  const itemsObject = JSON.parse(localStorage.getItem("items"));
+  console.log(itemsObject);
+
+  itemsObject.forEach((item) => {
+    addItem(item.task, item.date, item.isDone);
+  });
+}
+
+loadItems();
