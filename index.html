@@ -15,13 +15,17 @@
   <body>
     <main>
       <div class="item-input">
-        <input
-          type="text"
-          name=""
-          id="input-field"
-          ,
-          placeholder="Enter your new item name..."
-        />
+        <div class="input-wrapper">
+          <input
+            type="text"
+            name=""
+            id="input-field"
+            ,
+            placeholder="Enter your new item name..."
+          />
+          <p class="name-warrning">Name cannot be empty</p>
+        </div>
+        <input type="text" name="" id="input-search" />
         <button id="submit-btn">Submit</button>
         <div class="select-box" id="filter-box">
           <div class="options-container">
@@ -33,10 +37,10 @@
         </div>
         <div class="select-box" id="sort-box">
           <div class="options-container">
+            <div class="option">Newest</div>
+            <div class="option">Oldest</div>
             <div class="option">Name Ascending</div>
             <div class="option">Name Deescending</div>
-            <div class="option">Date Ascending</div>
-            <div class="option">Date Deescending</div>
             <div class="option">Custom</div>
           </div>
           <div class="selected-btn"></div>
@@ -60,6 +64,7 @@
       </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="./Scripts/app.js"></script>
   </body>
 </html>

@@ -8,8 +8,14 @@
 #input-field {
   height: 42px;
   padding-left: 10px;
+
+  width: 100%;
+}
+.input-wrapper {
   flex-grow: 1;
 }
 #submit-btn {
   height: 42px;
+  background-color: #7fffd4;
+  cursor: pointer;
 }

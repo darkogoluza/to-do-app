@@ -39,6 +39,7 @@ class SelectBox {
 
 const inputField = document.querySelector("#input-field");
 const renameInputField = document.querySelector("#rename-input");
+const inputSearch = document.querySelector("#input-search");
 
 const cancleRenameButton = document.querySelector("#rename-cancle");
 const submitButton = document.querySelector("#submit-btn");
@@ -48,18 +49,20 @@ const itemHolder = document.querySelector(".items-holder");
 
 const renameScreen = document.querySelector(".rename-item-screen");
 
+const nameWarrning = document.querySelector(".name-warrning");
+
 const filterBox = new SelectBox("#filter-box", () => {
   document.querySelectorAll(".todo-item").forEach((item) => {
     switch (filterBox.activeOptionId) {
       case "All":
         item.classList.remove("hide-item");
         break;
-      case "Not Done":
+      case "Done":
         item.classList.contains("item-done")
           ? item.classList.remove("hide-item")
           : item.classList.add("hide-item");
         break;
-      case "Done":
+      case "Not Done":
         item.classList.contains("item-done")
           ? item.classList.add("hide-item")
           : item.classList.remove("hide-item");
@@ -68,27 +71,20 @@ const filterBox = new SelectBox("#filter-box", () => {
   });
 });
 
-const sortbox = new SelectBox("#sort-box", () => {
-  const items = Array.prototype.slice.call(
-    document.querySelectorAll(".todo-item")
-  );
-
-  const sortedItems = getSortedItems(items);
-
-  for (var i = 0, len = sortedItems.length; i < len; i++) {
-    const detatchedItem = itemHolder.removeChild(sortedItems[i]);
-    itemHolder.appendChild(detatchedItem);
-  }
-});
+const sortbox = new SelectBox("#sort-box", sortItems);
 
 let itemToRename = null;
 
 submitButton.addEventListener("click", () => {
-  inputField.value !== ""
-    ? addItem(inputField.value)
-    : alert("Pleas add some name for your To Do item");
-
+  addItem(inputField.value);
   inputField.value = "";
+
+  checkSubmitButtonValidity();
+});
+
+checkSubmitButtonValidity();
+inputField.addEventListener("input", () => {
+  checkSubmitButtonValidity();
 });
 
 cancleRenameButton.addEventListener("click", () => {
@@ -116,12 +112,16 @@ function addItem(content) {
   removeItemAction(item);
   markItemAction(item);
   renameItemAction(item);
+
+  sortItems();
 }
 
 function createItemHTML(task) {
   return `<div class="item-content">
             <p class="item-task">Task: ${task}</p>
-            <p class="item-date">Created on: ${new Date().toLocaleString()}</p>
+            <p class="item-date">Created on: ${moment().format(
+              "MMMM Do YYYY, h:mm:ss a"
+            )}</p>
         </div>
         <button class="mark-item-done">Mark as Done</button>
         <button class="rename-item">Rename Item </button>
@@ -168,7 +168,7 @@ function getTaskName(task) {
 }
 
 function getTaskDate(task) {
-  return Date.parse(task.textContent.slice(12));
+  return moment(task.textContent.slice(12), "MMMM Do YYYY, h:mm:ss a");
 }
 
 function getSortedItems(items) {
@@ -179,8 +179,11 @@ function getSortedItems(items) {
     case "Name Deescending":
       return getSortedItemsByName(items).reverse();
 
-    case "Date Ascending":
+    case "Newest":
       return getSortedItemsByDate(items);
+
+    case "Oldest":
+      return getSortedItemsByDate(items).reverse();
   }
 }
 
@@ -195,7 +198,6 @@ function getSortedItemsByName(items) {
       return 1;
     }
 
-    // names must be equal
     return 0;
   });
 }
@@ -205,8 +207,6 @@ function getSortedItemsByDate(items) {
     const dateA = getTaskDate(a.querySelector(".item-date"));
     const dateB = getTaskDate(b.querySelector(".item-date"));
 
-    console.log(dateA);
-
     if (dateA < dateB) {
       return -1;
     }
@@ -214,7 +214,31 @@ function getSortedItemsByDate(items) {
       return 1;
     }
 
-    // names must be equal
     return 0;
   });
+}
+
+function sortItems() {
+  const items = Array.prototype.slice.call(
+    document.querySelectorAll(".todo-item")
+  );
+
+  const sortedItems = getSortedItems(items);
+
+  for (var i = 0, len = sortedItems.length; i < len; i++) {
+    const detatchedItem = itemHolder.removeChild(sortedItems[i]);
+    itemHolder.appendChild(detatchedItem);
+  }
+}
+
+function checkSubmitButtonValidity() {
+  if (inputField.value === "") {
+    submitButton.style.backgroundColor = "rgb(50, 88, 76)";
+    submitButton.style.pointerEvents = "none";
+    nameWarrning.style.display = "block";
+  } else {
+    submitButton.style.backgroundColor = "#7fffd4";
+    submitButton.style.pointerEvents = "initial";
+    nameWarrning.style.display = "none";
+  }
 }
