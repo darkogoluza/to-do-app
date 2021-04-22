@@ -1,3 +1,5 @@
+# Video example
+https://www.youtube.com/watch?v=iQaB14g_2RU
 
 # Why I made it
 I made this app for only practice purposes and to showcase my vanilla javascript skills, I only used `gsap` for animations and `moment.js` for formatting of date and time.
@@ -27,6 +29,7 @@ You can sort your tasks by the order in which they are created and by name. You 
 * Custom
 
 Custom drag and dropping example
+![ezgif-3-b1968b66ed0c](https://user-images.githubusercontent.com/9008571/115787996-4cf4e480-a3c3-11eb-9e9c-c344ea275660.gif)
 
 ## Searching
 Let's say you have a lot of tasks and want to find a specific one well there is also a possibility to search for your tasks
