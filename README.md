@@ -1,5 +1,6 @@
 # Video example
-https://www.youtube.com/watch?v=iQaB14g_2RU
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/iQaB14g_2RU/0.jpg)](https://www.youtube.com/watch?v=iQaB14g_2RU)
+
 
 # Why I made it
 I made this app for only practice purposes and to showcase my vanilla javascript skills, I only used `gsap` for animations and `moment.js` for formatting of date and time.
