@@ -39,6 +39,14 @@
   display: none;
 }
 
+.draggable-item {
+  cursor: move;
+}
+
+.dragging-item .item-content {
+  background-color: red;
+}
+
 .item-input {
   width: 100%;
   margin: 50px 0;

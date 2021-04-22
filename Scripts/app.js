@@ -12,14 +12,14 @@ class SelectBox {
     });
 
     this.options.forEach((option, index) => {
-      if (index === 0) {
-        this.makeOptionActive(option);
+      if (index === 0 && localStorage.getItem("sort") == null) {
+        //this.makeOptionActive(option.textContent);
       }
       option.addEventListener("click", () => {
         this.optionsContainer.classList.remove("active");
 
         this.deactivateOptions();
-        this.makeOptionActive(option);
+        this.makeOptionActive(option.textContent);
         this.onOption();
       });
     });
@@ -31,9 +31,15 @@ class SelectBox {
     });
   }
 
-  makeOptionActive(option) {
-    option.classList.add("active-option");
-    this.activeOptionId = option.textContent;
+  makeOptionActive(optionId) {
+    this.options.forEach((option) => {
+      if (option.textContent === optionId) {
+        option.classList.add("active-option");
+        this.activeOptionId = optionId;
+      }
+    });
+
+    localStorage.setItem("sort", optionId);
   }
 }
 
@@ -102,6 +108,7 @@ function addItem(content, date = null, done = false) {
   removeItemAction(item);
   markItemAction(item);
   renameItemAction(item);
+  draggableItemAction(item);
 
   sortItems();
 
@@ -150,6 +157,50 @@ function renameItemAction(item) {
     renameInputField.value = "";
     itemToRename = e.target.parentElement;
   });
+}
+
+function draggableItemAction(item) {
+  item.addEventListener("dragstart", () => {
+    item.classList.add("dragging-item");
+  });
+
+  item.addEventListener("dragend", () => {
+    item.classList.remove("dragging-item");
+    saveItems();
+    console.log("nesto");
+  });
+
+  itemHolder.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    const afterElement = getDragAfterElement(itemHolder, e.clientY);
+    const draggable = document.querySelector(".dragging-item");
+    if (afterElement == null) {
+      itemHolder.appendChild(draggable);
+    } else {
+      itemHolder.insertBefore(draggable, afterElement);
+    }
+  });
+}
+
+function getDragAfterElement(container, y) {
+  const draggableElements = [
+    ...container.querySelectorAll(".draggable-item:not(.dragging-item)"),
+  ];
+
+  return draggableElements.reduce(
+    (closest, child) => {
+      const box = child.getBoundingClientRect();
+      const offset = y - box.top - box.height / 2;
+      if (offset < 0 && offset > closest.offset) {
+        return { offset: offset, element: child };
+      } else {
+        return closest;
+      }
+    },
+    {
+      offset: Number.NEGATIVE_INFINITY,
+    }
+  ).element;
 }
 
 function renameItem(item, newName) {
@@ -215,6 +266,19 @@ function getSortedItemsByDate(items) {
 }
 
 function sortItems() {
+  if (sortbox.activeOptionId === "Custom") {
+    document.querySelectorAll(".todo-item").forEach((item) => {
+      item.classList.add("draggable-item");
+      item.setAttribute("draggable", "true");
+    });
+    return;
+  } else {
+    document.querySelectorAll(".todo-item").forEach((item) => {
+      item.classList.remove("draggable-item");
+      item.setAttribute("draggable", "false");
+    });
+  }
+
   const items = Array.prototype.slice.call(
     document.querySelectorAll(".todo-item")
   );
@@ -267,7 +331,6 @@ function filterItemsBySearch() {
 
   document.querySelectorAll(".todo-item").forEach((item) => {
     const regex = new RegExp(`^${inputSearch.value}`, "gi");
-    console.log(getTaskName(item));
     if (!getTaskName(item).match(regex)) item.classList.add("hide-item");
   });
 }
@@ -287,8 +350,8 @@ function saveItems() {
 
 function loadItems() {
   const itemsObject = JSON.parse(localStorage.getItem("items"));
-  console.log(itemsObject);
 
+  sortbox.makeOptionActive(localStorage.getItem("sort"));
   itemsObject.forEach((item) => {
     addItem(item.task, item.date, item.isDone);
   });

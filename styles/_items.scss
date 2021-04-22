@@ -33,3 +33,13 @@
 .hide-item {
   display: none;
 }
+
+.draggable-item {
+  cursor: move;
+}
+
+.dragging-item {
+  .item-content {
+    background-color: red;
+  }
+}
