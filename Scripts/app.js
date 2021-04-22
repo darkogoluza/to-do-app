@@ -1,3 +1,7 @@
+//-------
+// Classes
+//-------
+
 class SelectBox {
   constructor(selector, onOption) {
     this.main = document.querySelector(selector);
@@ -41,6 +45,10 @@ class SelectBox {
   }
 }
 
+//----------
+// Variabels
+//----------
+
 const inputField = document.querySelector("#input-field");
 const renameInputField = document.querySelector("#rename-input");
 const inputSearch = document.querySelector("#input-search");
@@ -66,9 +74,14 @@ const sortbox = new SelectBox("#sort-box", sortItems);
 
 let itemToRename = null;
 
+//--------------Restart all input values---------------
 document.querySelectorAll("input").forEach((input) => {
   input.value = "";
 });
+
+//----------------
+// Event Listeners
+//----------------
 
 submitButton.addEventListener("click", () => {
   addItem(inputField.value);
@@ -96,6 +109,10 @@ renameButton.addEventListener("click", () => {
 
   saveItems();
 });
+
+//----------
+// Functions
+//----------
 
 function addItem(content, date = null, done = false) {
   const item = document.createElement("div");
@@ -384,4 +401,5 @@ function loadItems() {
   });
 }
 
+// Loading from local storage
 loadItems();
