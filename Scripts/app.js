@@ -52,23 +52,8 @@ const renameScreen = document.querySelector(".rename-item-screen");
 const nameWarrning = document.querySelector(".name-warrning");
 
 const filterBox = new SelectBox("#filter-box", () => {
-  document.querySelectorAll(".todo-item").forEach((item) => {
-    switch (filterBox.activeOptionId) {
-      case "All":
-        item.classList.remove("hide-item");
-        break;
-      case "Done":
-        item.classList.contains("item-done")
-          ? item.classList.remove("hide-item")
-          : item.classList.add("hide-item");
-        break;
-      case "Not Done":
-        item.classList.contains("item-done")
-          ? item.classList.add("hide-item")
-          : item.classList.remove("hide-item");
-        break;
-    }
-  });
+  filterItems();
+  filterItemsBySearch();
 });
 
 const sortbox = new SelectBox("#sort-box", sortItems);
@@ -86,6 +71,8 @@ checkSubmitButtonValidity();
 inputField.addEventListener("input", () => {
   checkSubmitButtonValidity();
 });
+
+inputSearch.addEventListener("input", filterItemsBySearch);
 
 cancleRenameButton.addEventListener("click", () => {
   renameScreen.classList.remove("show-rename");
@@ -163,12 +150,15 @@ function renameItem(item, newName) {
   item.querySelector(".item-task").textContent = `Task: ${newName}`;
 }
 
-function getTaskName(task) {
-  return task.textContent.slice(6);
+function getTaskName(item) {
+  return item.querySelector(".item-task").textContent.slice(6);
 }
 
-function getTaskDate(task) {
-  return moment(task.textContent.slice(12), "MMMM Do YYYY, h:mm:ss a");
+function getTaskDate(item) {
+  return moment(
+    item.querySelector(".item-date").textContent.slice(12),
+    "MMMM Do YYYY, h:mm:ss a"
+  );
 }
 
 function getSortedItems(items) {
@@ -189,8 +179,8 @@ function getSortedItems(items) {
 
 function getSortedItemsByName(items) {
   return items.sort((a, b) => {
-    const nameA = getTaskName(a.querySelector(".item-task")).toUpperCase();
-    const nameB = getTaskName(b.querySelector(".item-task")).toUpperCase();
+    const nameA = getTaskName(a).toUpperCase();
+    const nameB = getTaskName(b).toUpperCase();
     if (nameA < nameB) {
       return -1;
     }
@@ -204,8 +194,8 @@ function getSortedItemsByName(items) {
 
 function getSortedItemsByDate(items) {
   return items.sort((a, b) => {
-    const dateA = getTaskDate(a.querySelector(".item-date"));
-    const dateB = getTaskDate(b.querySelector(".item-date"));
+    const dateA = getTaskDate(a);
+    const dateB = getTaskDate(b);
 
     if (dateA < dateB) {
       return -1;
@@ -241,4 +231,37 @@ function checkSubmitButtonValidity() {
     submitButton.style.pointerEvents = "initial";
     nameWarrning.style.display = "none";
   }
+}
+
+function filterItems() {
+  document.querySelectorAll(".todo-item").forEach((item) => {
+    switch (filterBox.activeOptionId) {
+      case "All":
+        item.classList.remove("hide-item");
+        break;
+      case "Done":
+        item.classList.contains("item-done")
+          ? item.classList.remove("hide-item")
+          : item.classList.add("hide-item");
+        break;
+      case "Not Done":
+        item.classList.contains("item-done")
+          ? item.classList.add("hide-item")
+          : item.classList.remove("hide-item");
+        break;
+    }
+  });
+}
+
+function filterItemsBySearch() {
+  if (inputSearch.value === "") {
+    filterItems();
+    return;
+  }
+
+  document.querySelectorAll(".todo-item").forEach((item) => {
+    const regex = new RegExp(`^${inputSearch.value}`, "gi");
+    console.log(getTaskName(item));
+    if (!getTaskName(item).match(regex)) item.classList.add("hide-item");
+  });
 }
