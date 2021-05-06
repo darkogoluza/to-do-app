@@ -1,5 +1,5 @@
 # Video example
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/iQaB14g_2RU/0.jpg)](https://www.youtube.com/watch?v=iQaB14g_2RU)
+[![Video](https://img.youtube.com/vi/iQaB14g_2RU/0.jpg)](https://www.youtube.com/watch?v=iQaB14g_2RU)
 
 
 # Why I made it
